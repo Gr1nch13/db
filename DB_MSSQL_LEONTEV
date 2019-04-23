@@ -1,0 +1,79 @@
+CREATE TABLE [Продукт] (
+	название_ID char(50) NOT NULL,
+	характеристики_ID int(10) NOT NULL,
+  CONSTRAINT [PK_ПРОДУКТ] PRIMARY KEY CLUSTERED
+  (
+  [название_ID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Характеристики] (
+	характеристики_ID int(10) NOT NULL,
+	расход_и_t_ID int(10) NOT NULL,
+	расход_и_tВГ_ID int(10) NOT NULL,
+	КПД_от_t_ID int(10) NOT NULL,
+  CONSTRAINT [PK_ХАРАКТЕРИСТИКИ] PRIMARY KEY CLUSTERED
+  (
+  [характеристики_ID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [КПД] (
+	КПД_от_t_ID int NOT NULL,
+	КПД int(100) NOT NULL,
+	Температура окр воздуха int(100) NOT NULL,
+  CONSTRAINT [PK_КПД] PRIMARY KEY CLUSTERED
+  (
+  [КПД_от_t_ID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Зависимость расхода и  температуры выхлодных газов от  температуры окр воздуха] (
+	расход_и_tВГ_ID int NOT NULL,
+	Расход и температура ВГ int(100) NOT NULL,
+	Температура окр воздуха int(100) NOT NULL,
+  CONSTRAINT [PK_ЗАВИСИМОСТЬ РАСХОДА И  ТЕМПЕРАТУРЫ ВЫХЛОДНЫХ ГАЗОВ ОТ  ТЕМПЕРАТУРЫ ОКР ВОЗДУХА] PRIMARY KEY CLUSTERED
+  (
+  [расход_и_tВГ_ID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [зависимость расхода от  температуры окр воздуха] (
+	расход_и_t_ID int NOT NULL,
+	Расход int(100) NOT NULL,
+	Температура окр воздуха int(100) NOT NULL,
+  CONSTRAINT [PK_ЗАВИСИМОСТЬ РАСХОДА ОТ  ТЕМПЕРАТУРЫ ОКР ВОЗДУХА] PRIMARY KEY CLUSTERED
+  (
+  [расход_и_t_ID] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+ALTER TABLE [Продукт] WITH CHECK ADD CONSTRAINT [Продукт_fk0] FOREIGN KEY ([характеристики_ID]) REFERENCES [Характеристики]([характеристики_ID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Продукт] CHECK CONSTRAINT [Продукт_fk0]
+GO
+
+ALTER TABLE [Характеристики] WITH CHECK ADD CONSTRAINT [Характеристики_fk0] FOREIGN KEY ([расход_и_t_ID]) REFERENCES [зависимость расхода от  температуры окр воздуха]([расход_и_t_ID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Характеристики] CHECK CONSTRAINT [Характеристики_fk0]
+GO
+ALTER TABLE [Характеристики] WITH CHECK ADD CONSTRAINT [Характеристики_fk1] FOREIGN KEY ([расход_и_tВГ_ID]) REFERENCES [Зависимость расхода и  температуры выхлодных газов от  температуры окр воздуха]([расход_и_tВГ_ID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Характеристики] CHECK CONSTRAINT [Характеристики_fk1]
+GO
+ALTER TABLE [Характеристики] WITH CHECK ADD CONSTRAINT [Характеристики_fk2] FOREIGN KEY ([КПД_от_t_ID]) REFERENCES [КПД]([КПД_от_t_ID])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Характеристики] CHECK CONSTRAINT [Характеристики_fk2]
+GO
+
+
+
